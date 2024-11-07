@@ -25,10 +25,13 @@ const addInputHandler = () => {
   // Add new input container
   const newInputContainer = lastInputContainer.cloneNode(true);
   document.querySelector('.input-list-container').appendChild(newInputContainer);
-  newInputContainer.querySelector('.input').value = '';
+  newInputContainer.querySelectorAll('.input').forEach(input => input.value = '');
 
   // Remove add button from last input container
   lastInputContainer.removeChild(lastInputContainer.querySelector('.add-btn'));
+
+  // Disable last inputs
+  lastInputContainer.querySelectorAll('.input').forEach(input => input.disabled = true);
 }
 
 generateChart();
