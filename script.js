@@ -34,4 +34,9 @@ const addInputHandler = () => {
   lastInputContainer.querySelectorAll('.input').forEach(input => input.disabled = true);
 }
 
-generateChart();
+var elt = document.getElementById('calculator');
+var calculator = Desmos.GraphingCalculator(elt, {
+  keypad: false,
+  // graphpaper: false
+  expressions: false
+});
