@@ -3,13 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js" type="module" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <link rel="stylesheet" href="styles.css">
     <title>Document</title>
 </head>
 <body>
-    <input type="text" id="input" placeholder="Enter a number">
+    <div class="input-list-container col gap-05">
+        <div class="input-container row gap-05">
+            <input type="text" class="input" placeholder="Enter a number">
+            <button class="add-btn" onclick="addInputHandler()">Add</button>
+        </div>
+    </div>
     <div id="chart"></div>
+
+    <script src="script.js"></script>
 </body>
 </html>
