@@ -9,14 +9,19 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="input-list-container col gap-05">
-        <div class="input-container row gap-05">
-            <input type="number" class="input" placeholder="Enter a number for X">
-            <input type="number" class="input" placeholder="Enter a number for Y">
-            <button class="add-btn" onclick="addInputHandler()">Add</button>
+    <div class="row">
+        <div class="input-list-container col gap-05">
+            <div class="input-container row gap-05">
+                <input type="number" class="input input-x" placeholder="Enter a number for X">
+                <input type="number" class="input input-y" placeholder="Enter a number for Y">
+                <button class="add-btn" onclick="addInputHandler()">Add</button>
+            </div>
+        </div>
+        <div class="function-order-container">
+            
         </div>
     </div>
-    <!-- <div id="chart"></div> -->
+    <div id="chart"></div>
     <div id="calculator" style="width: 600px; height: 400px;"></div>
 
     <script src="script.js"></script>
