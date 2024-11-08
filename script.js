@@ -58,25 +58,42 @@ const calcFunctionOrder = () => {
   let firstOrder = true;
   let secondOrder = true;
   let thirdOrder = true;
+  let constant = true;
+  let lastDifferenceBetween = 0;
 
   for (let i = 1; i < yValues.length; i++) {
-    if (yValues[i] <= yValues[i - 1]) {
+  const previewValue = yValues[i - 1];
+  const actualValue = yValues[i];
+  const differenceBetween = previewValue - actualValue;
+  const isNotFirstIteration = i > 1;
+    if (actualValue !== previewValue) {
+      constant = false;
+    }
+    if(isNotFirstIteration && differenceBetween !== lastDifferenceBetween) {
       firstOrder = false;
     }
-    if (i > 1 && (yValues[i] - yValues[i - 1]) * (yValues[i - 1] - yValues[i - 2]) >= 0) {
-      secondOrder = false;
-    }
-    if (yValues[i] / yValues[i - 1] !== yValues[1] / yValues[0]) {
-      thirdOrder = false;
-    }
+    lastDifferenceBetween = differenceBetween;
+    // if (yValues[i] <= yValues[i - 1]) {
+    //   firstOrder = false;
+    // }
+    // if (i > 1 && (yValues[i] - yValues[i - 1]) * (yValues[i - 1] - yValues[i - 2]) >= 0) {
+    //   secondOrder = false;
+    // }
+    // if (yValues[i] / yValues[i - 1] !== yValues[1] / yValues[0]) {
+    //   thirdOrder = false;
+    // }
   }
 
-  if (firstOrder) {
-    return "The function is first order.";
-  } else if (secondOrder) {
-    return "The function is second order.";
-  } else if (thirdOrder) {
-    return "The function is third order.";
+  // if (firstOrder) {
+  //   return "The function is first order.";
+  // } else if (secondOrder) {
+  //   return "The function is second order.";
+  // } else if (thirdOrder) {
+  //   return "The function is third order.";
+   if(constant) {
+    return "A função é constante"
+  } else if(firstOrder) {
+    return "Função de primeira ordem"
   } else {
     return "The function does not fit any of the specified orders.";
   }
