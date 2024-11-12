@@ -50,53 +50,100 @@ const addInputHandler = () => {
 }
 
 const calcFunctionOrder = () => {
-  if (yValues.length < 2) {
-    console.log("Not enough data points to determine the function order.");
-    return;
+  //CONSTANTE
+  const isConstant = yValues.every(y => y === yValues[0]);
+  if (isConstant) {
+    return "A função é constante";
   }
 
-  let firstOrder = true;
-  let secondOrder = true;
-  let thirdOrder = true;
-  let constant = true;
-  let lastDifferenceBetween = 0;
 
-  for (let i = 1; i < yValues.length; i++) {
-  const previewValue = yValues[i - 1];
-  const actualValue = yValues[i];
-  const differenceBetween = previewValue - actualValue;
-  const isNotFirstIteration = i > 1;
-    if (actualValue !== previewValue) {
-      constant = false;
+  //FUNÇÃO DE PRIMEIRO GRAU
+  let isFirstOrder = true;
+  const firstDifference = yValues[1] - yValues[0];
+  for (let i = 2; i < yValues.length; i++) {
+    if ((yValues[i] - yValues[i - 1]) !== firstDifference) {
+      isFirstOrder = false;
+      break;
     }
-    if(isNotFirstIteration && differenceBetween !== lastDifferenceBetween) {
-      firstOrder = false;
-    }
-    lastDifferenceBetween = differenceBetween;
-    // if (yValues[i] <= yValues[i - 1]) {
-    //   firstOrder = false;
-    // }
-    // if (i > 1 && (yValues[i] - yValues[i - 1]) * (yValues[i - 1] - yValues[i - 2]) >= 0) {
-    //   secondOrder = false;
-    // }
-    // if (yValues[i] / yValues[i - 1] !== yValues[1] / yValues[0]) {
-    //   thirdOrder = false;
-    // }
+  }
+  if (isFirstOrder) {
+    return "Função de primeiro grau";
   }
 
-  // if (firstOrder) {
-  //   return "The function is first order.";
-  // } else if (secondOrder) {
-  //   return "The function is second order.";
-  // } else if (thirdOrder) {
-  //   return "The function is third order.";
-   if(constant) {
-    return "A função é constante"
-  } else if(firstOrder) {
-    return "Função de primeira ordem"
-  } else {
-    return "The function does not fit any of the specified orders.";
+  //FUNÇÃO DE SEGUNDO GRAU
+  let isSecondOrder = false;
+  let signChanges = 0;
+  for (let i = 1; i < yValues.length - 1; i++) {
+    const diff1 = yValues[i] - yValues[i - 1];
+    const diff2 = yValues[i + 1] - yValues[i];
+    if ((diff1 > 0 && diff2 < 0) || (diff1 < 0 && diff2 > 0)) {
+      signChanges++;
+    }
   }
+  if (signChanges === 1) {
+    isSecondOrder = true;
+  }
+  if (isSecondOrder) {
+    return "Função de segundo grau";
+  }
+ 
+  //FUNÇÃO DE TERCEIRO GRAU
+  const thirdDifferences = [];
+  for (let i = 3; i < yValues.length; i++) {
+    const difference = (secondDifferences[i - 2] - secondDifferences[i - 3]);
+    thirdDifferences.push(difference);
+  }
+  if (thirdDifferences.every(d => d === thirdDifferences[0])) {
+    return "Função de terceiro grau";
+  }
+
+  //EXPONENCIAL
+  const isExponential = yValues.every((y, i) => i === 0 || y / yValues[i - 1] === yValues[1] / yValues[0]);
+  if (isExponential) {
+    return "Função exponencial";
+  }
+
+   // Verificar se é logarítmica
+   const isLogarithmic = yValues.every((y, i) => i === 0 || y === Math.log(xValues[i]) * yValues[1] / Math.log(xValues[1]));
+   if (isLogarithmic) {
+     return "Função logarítmica";
+   }
+ 
+   return "A função não corresponde a nenhum dos tipos especificados.";
+
+  // if (yValues.length < 2) {
+  //   console.log("Not enough data points to determine the function order.");
+  //   return;
+  // }
+
+  // let firstOrder = true;
+  // let secondOrder = true;
+  // let thirdOrder = true;
+  // let constant = true;
+  // let lastDifferenceBetween = 0;
+
+
+  // for (let i = 1; i < yValues.length; i++) {
+  // const previewValue = yValues[i - 1];
+  // const actualValue = yValues[i];
+  // const differenceBetween = previewValue - actualValue;
+  // const isNotFirstIteration = i > 1;
+  //   if (actualValue !== previewValue) {
+  //     constant = false;
+  //   }
+  //   if(isNotFirstIteration && differenceBetween !== lastDifferenceBetween) {
+  //     firstOrder = false;
+  //   }
+  //   lastDifferenceBetween = differenceBetween;
+  // }
+
+  // if(constant) {
+  //   return "A função é constante"
+  // } else if(firstOrder) {
+  //   return "Função de primeira ordem"
+  // } else {
+  //   return "The function does not fit any of the specified orders.";
+  // }
 };
 
 const renderFunctionOrder = () => {
@@ -105,9 +152,3 @@ const renderFunctionOrder = () => {
 }
 
 generateChart();
-// var elt = document.getElementById('calculator');
-// var calculator = Desmos.GraphingCalculator(elt, {
-//   keypad: false,
-//   // graphpaper: false
-//   expressions: false
-// });
