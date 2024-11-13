@@ -5,9 +5,12 @@ const pairs = [];
 
 const generateChart = () => {
   var options = {
+    layout: {
+      padding: 20
+    },
     chart: {
       type: 'line',
-        height: 500,
+      height: 500,
     },
     series: [{
       name: 'Y',
@@ -86,64 +89,14 @@ const calcFunctionOrder = () => {
   if (isSecondOrder) {
     return "Função de segundo grau";
   }
- 
-  //FUNÇÃO DE TERCEIRO GRAU
-  const thirdDifferences = [];
-  for (let i = 3; i < yValues.length; i++) {
-    const difference = (secondDifferences[i - 2] - secondDifferences[i - 3]);
-    thirdDifferences.push(difference);
-  }
-  if (thirdDifferences.every(d => d === thirdDifferences[0])) {
-    return "Função de terceiro grau";
-  }
 
   //EXPONENCIAL
   const isExponential = yValues.every((y, i) => i === 0 || y / yValues[i - 1] === yValues[1] / yValues[0]);
   if (isExponential) {
     return "Função exponencial";
   }
-
-   // Verificar se é logarítmica
-   const isLogarithmic = yValues.every((y, i) => i === 0 || y === Math.log(xValues[i]) * yValues[1] / Math.log(xValues[1]));
-   if (isLogarithmic) {
-     return "Função logarítmica";
-   }
  
    return "A função não corresponde a nenhum dos tipos especificados.";
-
-  // if (yValues.length < 2) {
-  //   console.log("Not enough data points to determine the function order.");
-  //   return;
-  // }
-
-  // let firstOrder = true;
-  // let secondOrder = true;
-  // let thirdOrder = true;
-  // let constant = true;
-  // let lastDifferenceBetween = 0;
-
-
-  // for (let i = 1; i < yValues.length; i++) {
-  // const previewValue = yValues[i - 1];
-  // const actualValue = yValues[i];
-  // const differenceBetween = previewValue - actualValue;
-  // const isNotFirstIteration = i > 1;
-  //   if (actualValue !== previewValue) {
-  //     constant = false;
-  //   }
-  //   if(isNotFirstIteration && differenceBetween !== lastDifferenceBetween) {
-  //     firstOrder = false;
-  //   }
-  //   lastDifferenceBetween = differenceBetween;
-  // }
-
-  // if(constant) {
-  //   return "A função é constante"
-  // } else if(firstOrder) {
-  //   return "Função de primeira ordem"
-  // } else {
-  //   return "The function does not fit any of the specified orders.";
-  // }
 };
 
 const renderFunctionOrder = () => {
